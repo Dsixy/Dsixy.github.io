@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dsixy 的 Idea 池</title>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dsixy 的 Idea 池</title>
+    <style>
+        /* ========== CSS 变量与颜色系统 ========== */
+        :root {
+            --primary-pink: #FF1B9B;
+            --primary-cyan: #00D4FF;
+            --primary-lime: #BFFF00;
+            --primary-yellow: #FFE900;
+            --primary-purple: #B800FF;
+            --primary-orange: #FF6B35;
+            
+            --secondary-magenta: #FF00FF;
+            --secondary-teal: #00FFFF;
+            --secondary-chartreuse: #7FFF00;
+            
+            --bg-light: #FEFEF8;
+            --text-dark: #1A1A1A;
+            --text-light: #FFFFFF;
+            
+            --blur-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --blur-glow: 0 0 30px rgba(255, 27, 155, 0.3);
+        }
+
+        /* ========== 全局样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #FFFEF0 100%);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 画布背景纹理 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(200, 200, 200, 0.02) 0px, rgba(200, 200, 200, 0.02) 1px, transparent 1px, transparent 2px),
+                repeating-linear-gradient(90deg, rgba(200, 200, 200, 0.02) 0px, rgba(200, 200, 200, 0.02) 1px, transparent 1px, transparent 2px);
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ========== Header 区域 ========== */
+        .header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 27, 155, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float-glow 8s ease-in-out infinite;
+            top: 10%;
+            right: 5%;
+            z-index: 0;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float-glow 10s ease-in-out infinite 1s;
+            bottom: 10%;
+            left: 5%;
+            z-index: 0;
+        }
+
+        .header-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        .header h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple), var(--primary-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fade-in 1.2s ease-out;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            font-weight: 300;
+            letter-spacing: 1px;
+            animation: fade-in 1.2s ease-out 0.3s both;
+            line-height: 1.8;
+        }
+
+        /* 闪烁的思维粒子 */
+        .thought-particle {
+            position: absolute;
+            opacity: 0;
+            animation: particle-float 6s ease-in-out forwards;
+            z-index: 0;
+        }
+
+        /* ========== 技能区域 / 颜料团 ========== */
+        .section {
+            padding: 120px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 80px;
+            text-align: center;
+            position: relative;
+            letter-spacing: -1px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-pink), var(--primary-cyan));
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skill-blob {
+            position: relative;
+            height: 280px;
+            cursor: pointer;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+        }
+
+        /* 使用 SVG 创建 Blob 形状并应用滤镜 */
+        .skill-blob svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: url(#gooey);
+        }
+
+        .skill-blob-fill {
+            animation: blob-drift 8s ease-in-out infinite;
+        }
+
+        .skill-blob:nth-child(1) .skill-blob-fill {
+            animation-delay: 0s;
+        }
+
+        .skill-blob:nth-child(2) .skill-blob-fill {
+            animation-delay: 1s;
+        }
+
+        .skill-blob:nth-child(3) .skill-blob-fill {
+            animation-delay: 2s;
+        }
+
+        .skill-blob:nth-child(4) .skill-blob-fill {
+            animation-delay: 3s;
+        }
+
+        .skill-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-light);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.9;
+        }
+
+        .skill-blob:hover .skill-label {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        /* ========== 项目展示区 / 色彩泼溅 ========== */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card {
+            position: relative;
+            height: 350px;
+            cursor: pointer;
+            border-radius: 20px;
+            overflow: hidden;
+            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.08));
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* 项目背景渐变 */
+        .project-splash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: ink-drift 12s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .project-splash.primary {
+            animation-delay: 0s;
+        }
+
+        .project-splash.secondary {
+            animation-delay: 2s;
+        }
+
+        .project-splash.tertiary {
+            animation-delay: 4s;
+        }
+
+        /* 项目内容 */
+        .project-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+            z-index: 2;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover .project-content {
+            opacity: 1;
+        }
+
+        .project-title {
+            color: var(--text-light);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .project-desc {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* ========== Footer ========== */
+        .footer {
+            padding: 80px 60px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 27, 155, 0.05) 0%, rgba(0, 212, 255, 0.05) 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== 动画定义 ========== */
+        @keyframes float-glow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes particle-float {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)); }
+        }
+
+        @keyframes blob-drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(10px, -10px) scale(1.02); }
+            50% { transform: translate(0, 15px) scale(0.98); }
+            75% { transform: translate(-10px, -5px) scale(1.01); }
+        }
+
+        @keyframes ink-drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(8px, -8px) scale(1.01); }
+            66% { transform: translate(-6px, 6px) scale(0.99); }
+        }
+
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .header p { font-size: 1rem; }
+            .section { padding: 80px 30px; }
+            .section-title { font-size: 2rem; margin-bottom: 60px; }
+            .skills-container { gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- SVG 滤镜定义 -->
+    <svg style="display: none;">
+        <filter id="gooey">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="coloredBlur" />
+            <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </svg>
+
+    <!-- Header 区域：灵感的源头 -->
+    <header class="header">
+        <div class="header-content">
+            <h1>✨ Dsixy 的 Idea 池</h1>
+            <p>
+                欢迎来到我的数字画廊，探索那些未完成的画作和流动的颜料团。
+            </p>
+        </div>
+    </header>
+
+    <!-- 技能区域：流动的颜料团 -->
+    <section class="section">
+        <h2 class="section-title">🎨 颜料盘</h2>
+        <div class="skills-container">
+            <!-- 技能 1: JavaScript -->
+            <div class="skill-blob">
+                <svg viewBox="0 0 280 280">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-pink);stop-opacity:0.9" />
+                            <stop offset="100%" style="stop-color:var(--primary-yellow);stop-opacity:0.9" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad1)" opacity="0.85" />
+                    <circle cx="140" cy="140" r="110" fill="url(#grad1)" opacity="0.4" />
+                </svg>
+                <div class="skill-label">Game</div>
+            </div>
+
+            <!-- 技能 2: Python -->
+            <div class="skill-blob">
+                <svg viewBox="0 0 280 280">
+                    <defs>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-cyan);stop-opacity:0.9" />
+                            <stop offset="100%" style="stop-color:var(--primary-lime);stop-opacity:0.9" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad2)" opacity="0.85" />
+                    <circle cx="140" cy="140" r="110" fill="url(#grad2)" opacity="0.4" />
+                </svg>
+                <div class="skill-label">Python</div>
+            </div>
+
+            <!-- 技能 3: Design -->
+            <div class="skill-blob">
+                <svg viewBox="0 0 280 280">
+                    <defs>
+                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-purple);stop-opacity:0.9" />
+                            <stop offset="100%" style="stop-color:var(--secondary-magenta);stop-opacity:0.9" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad3)" opacity="0.85" />
+                    <circle cx="140" cy="140" r="110" fill="url(#grad3)" opacity="0.4" />
+                </svg>
+                <div class="skill-label">UI/UX Design</div>
+            </div>
+
+            <!-- 技能 4: AI Idea -->
+            <div class="skill-blob">
+                <svg viewBox="0 0 280 280">
+                    <defs>
+                        <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-orange);stop-opacity:0.9" />
+                            <stop offset="100%" style="stop-color:var(--primary-pink);stop-opacity:0.9" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad4)" opacity="0.85" />
+                    <circle cx="140" cy="140" r="110" fill="url(#grad4)" opacity="0.4" />
+                </svg>
+                <div class="skill-label">AI & Creativity</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示区：色彩泼溅 -->
+    <section class="section">
+        <h2 class="section-title">🖌️ 画作</h2>
+        <div class="projects-container">
+            <!-- 项目 1 -->
+            <div class="project-card">
+                <div class="project-splash primary" style="background: linear-gradient(135deg, #FF1B9B 0%, #FFE900 100%);"></div>
+                <div class="project-content">
+                    <div class="project-title">Just Run2</div>
+                    <div class="project-desc">Rougelike游戏</div>
+                </div>
+            </div>
+
+            <!-- 项目 2 -->
+            <div class="project-card">
+                <div class="project-splash primary" style="background: linear-gradient(135deg, #00D4FF 0%, #BFFF00 100%);"></div>
+                <div class="project-content">
+                    <div class="project-title">项目二</div>
+                    <div class="project-desc">探索 AI 与创意的边界</div>
+                </div>
+            </div>
+
+            <!-- 项目 3 -->
+            <div class="project-card">
+                <div class="project-splash primary" style="background: linear-gradient(135deg, #B800FF 0%, #FF00FF 100%);"></div>
+                <div class="project-content">
+                    <div class="project-title">项目三</div>
+                    <div class="project-desc">沉浸式的视觉艺术装置</div>
+                </div>
+            </div>
+
+            <!-- 项目 4 -->
+            <div class="project-card">
+                <div class="project-splash primary" style="background: linear-gradient(135deg, #FF6B35 0%, #00D4FF 100%);"></div>
+                <div class="project-content">
+                    <div class="project-title">项目四</div>
+                    <div class="project-desc">融合技术与艺术的新尝试</div>
+                </div>
+            </div>
+
+            <!-- 项目 5 -->
+            <div class="project-card">
+                <div class="project-splash primary" style="background: linear-gradient(135deg, #BFFF00 0%, #FF1B9B 100%);"></div>
+                <div class="project-content">
+                    <div class="project-title">项目五</div>
+                    <div class="project-desc">未来感的互动设计语言</div>
+                </div>
+            </div>
+
+            <!-- 项目 6 -->
+            <div class="project-card">
+                <div class="project-splash primary" style="background: linear-gradient(135deg, #7FFF00 0%, #FF00FF 100%);"></div>
+                <div class="project-content">
+                    <div class="project-title">项目六</div>
+                    <div class="project-desc">创意编程的无限可能</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🌈 每一行代码都是一笔，每一个项目都是一幅画 — 欢迎进入我的数字画廊 ✨</p>
+    </footer>
+
+    <script>
+        // ========== 思维粒子效果 ==========
+        function createThoughtParticle() {
+            const header = document.querySelector('.header');
+            const particle = document.createElement('div');
+            particle.className = 'thought-particle';
+            
+            const colors = [
+                'var(--primary-pink)',
+                'var(--primary-cyan)',
+                'var(--primary-lime)',
+                'var(--primary-purple)',
+            ];
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.background = `radial-gradient(circle, ${randomColor}, transparent)`;
+            particle.style.width = Math.random() * 60 + 20 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.borderRadius = '50%';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 80 + '%';
+            
+            const tx = (Math.random() - 0.5) * 200;
+            const ty = (Math.random() - 0.5) * 200 - 100;
+            particle.style.setProperty('--tx', tx + 'px');
+            particle.style.setProperty('--ty', ty + 'px');
+            
+            header.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 6000);
+        }
+
+        // 定期生成思维粒子
+        setInterval(createThoughtParticle, 1200);
+
+        // ========== 项目卡片鼠标跟随效果 ==========
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // 创建光晕跟随效果
+                const splash = card.querySelector('.project-splash');
+                const offsetX = (x - rect.width / 2) * 0.15;
+                const offsetY = (y - rect.height / 2) * 0.15;
+                
+                splash.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                const splash = card.querySelector('.project-splash');
+                splash.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // ========== 技能 Blob 的交互增强 ==========
+        document.querySelectorAll('.skill-blob').forEach(blob => {
+            blob.addEventListener('click', () => {
+                blob.style.animation = 'none';
+                setTimeout(() => {
+                    blob.style.animation = '';
+                }, 10);
+            });
+        });
+
+        // ========== 页面滚动时的视差效果 ==========
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            
+            // 轻微的视差滚动
+            document.querySelectorAll('.project-splash').forEach((splash, index) => {
+                splash.style.transform = `translateY(${scrolled * 0.5}px)`;
+            });
+        });
+
+        // ========== 初始化 ==========
+        // 生成首个思维粒子
+        createThoughtParticle();
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎨 创意画布已加载 — 开始你的想象之旅');
+        });
+    </script>
+</body>
+</html>
