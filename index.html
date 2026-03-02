@@ -137,20 +137,27 @@
             z-index: 0;
         }
 
-        /* ========== 技能区域 / 颜料团 ========== */
+        /* ========== 统一环绕式布局系统 ========== */
         .section {
-            padding: 120px 60px;
+            padding: 40px 20px;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .section-title {
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            margin-bottom: 80px;
+            margin-bottom: 40px;
             text-align: center;
             position: relative;
             letter-spacing: -1px;
+            z-index: 100;
         }
 
         .section-title::before {
@@ -164,117 +171,145 @@
             transform: translateX(-50%);
         }
 
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
+        /* ========== 统一环绕容器 ========== */
+        .unified-container {
             position: relative;
-            z-index: 1;
+            width: 900px;
+            height: 900px;
+            margin: 0 auto;
         }
 
-        .skill-blob {
-            position: relative;
-            height: 280px;
-            cursor: pointer;
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
-        }
-
-        /* 使用 SVG 创建 Blob 形状并应用滤镜 */
-        .skill-blob svg {
+        /* ========== 中心hub ========== */
+        .center-hub {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, var(--bg-light) 0%, rgba(254, 254, 248, 0.9) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .center-hub::before {
+            content: '🎨';
+            font-size: 2.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .skill-blob:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
+        }
+
+        /* ========== 统一环绕布局系统 ========== */
+        .creative-orbit {
+            position: relative;
+            width: 1000px;
+            height: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 中心hub - 内圈核心 */
+        .center-hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, var(--bg-light) 0%, rgba(254, 254, 248, 0.95) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+        }
+
+        .center-hub::before {
+            content: '🎨';
+            font-size: 3rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* 颜料盘元素 - 内圈第一层 */
+        .skill-orbit-item {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            z-index: 80;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+
+        .skill-orbit-item svg {
             width: 100%;
             height: 100%;
             filter: url(#gooey);
         }
 
-        .skill-blob-fill {
-            animation: blob-drift 8s ease-in-out infinite;
-        }
-
-        .skill-blob:nth-child(1) .skill-blob-fill {
-            animation-delay: 0s;
-        }
-
-        .skill-blob:nth-child(2) .skill-blob-fill {
-            animation-delay: 1s;
-        }
-
-        .skill-blob:nth-child(3) .skill-blob-fill {
-            animation-delay: 2s;
-        }
-
-        .skill-blob:nth-child(4) .skill-blob-fill {
-            animation-delay: 3s;
-        }
-
-        .skill-label {
+        .skill-orbit-item .skill-label {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.4rem;
+            font-size: 0.9rem;
             font-weight: 700;
             text-align: center;
             color: var(--text-light);
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
             pointer-events: none;
             z-index: 2;
-            opacity: 0.9;
         }
 
-        .skill-blob:hover .skill-label {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.05);
+        .skill-orbit-item:hover {
+            transform: scale(1.15);
+            filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.25));
+            z-index: 90;
         }
 
-        /* ========== 项目展示区 / 色彩泼溅 ========== */
-        .projects-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 50px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .project-card {
-            position: relative;
-            height: 350px;
+        /* 画作元素 - 外圈第二层，围绕颜料盘 */
+        .project-orbit-item {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
             cursor: pointer;
-            border-radius: 20px;
             overflow: hidden;
-            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.08));
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            z-index: 60;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
         }
 
-        .project-card:hover {
-            transform: translateY(-8px);
-        }
-
-        /* 项目背景渐变 */
-        .project-splash {
+        .project-orbit-item .project-splash {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            border-radius: 50%;
             animation: ink-drift 12s ease-in-out infinite;
             z-index: 1;
         }
 
-        .project-splash.primary {
-            animation-delay: 0s;
-        }
-
-        .project-splash.secondary {
-            animation-delay: 2s;
-        }
-
-        .project-splash.tertiary {
-            animation-delay: 4s;
-        }
-
-        /* 项目内容 */
-        .project-content {
+        .project-orbit-item .project-content {
             position: absolute;
             top: 0;
             left: 0;
@@ -282,31 +317,122 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 40px;
+            justify-content: center;
+            align-items: center;
             z-index: 2;
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            padding: 15px;
         }
 
-        .project-card:hover .project-content {
-            opacity: 1;
-        }
-
-        .project-title {
+        .project-orbit-item .project-title {
             color: var(--text-light);
-            font-size: 1.6rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
+            text-align: center;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0;
+            transition: all 0.3s ease;
         }
 
-        .project-desc {
+        .project-orbit-item .project-desc {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            font-weight: 300;
+            font-size: 0.75rem;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s ease;
+            margin-top: 6px;
+            max-width: 120px;
+            line-height: 1.2;
+        }
+
+        /* Hover效果 - 清晰的放大 */
+        .project-orbit-item:hover {
+            transform: scale(1.2);
+            z-index: 70;
+            filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3));
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .project-orbit-item:hover .project-desc {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-orbit-item:hover .project-title {
+            transform: translateY(-3px);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .skills-container {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .skill-blob {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .skill-label {
+                font-size: 0.8rem;
+            }
+            
+            .projects-container {
+                width: 500px;
+                height: 500px;
+            }
+            
+            .project-card {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .project-title {
+                font-size: 0.9rem;
+            }
+            
+            .project-desc {
+                font-size: 0.7rem;
+                max-width: 100px;
+            }
+            
+            .center-hub {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .center-hub::before {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .projects-container {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .project-card {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .section {
+                padding: 60px 20px;
+            }
+        }
+
+        /* 挤开效果 - 相邻元素会被推开 */
+        .creative-orbit:has(.project-orbit-item:hover) .project-orbit-item:not(:hover) {
+            transform: scale(0.9);
+            opacity: 0.7;
         }
 
         /* ========== Footer ========== */
@@ -355,6 +481,71 @@
             66% { transform: translate(-6px, 6px) scale(0.99); }
         }
 
+        /* ========== 背景放大过渡效果 ========== */
+        .transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .expanding-background {
+            position: absolute;
+            border-radius: 20px;
+            transition: none;
+        }
+
+        .expanding-background.active {
+            animation: background-expand 0.8s cubic-bezier(0.23, 1, 0.320, 1) forwards;
+        }
+
+        @keyframes background-expand {
+            0% {
+                border-radius: 20px;
+            }
+            100% {
+                border-radius: 0;
+            }
+        }
+
+        /* 内容固定层 - 确保内容大小位置不变 */
+        .content-fixed-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+        }
+
+        .fixed-content {
+            text-align: center;
+            color: white;
+            z-index: 10001;
+        }
+
+        .fixed-content .project-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .fixed-content .project-desc {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
         /* ========== 响应式设计 ========== */
         @media (max-width: 768px) {
             .header h1 { font-size: 2.5rem; }
@@ -362,6 +553,64 @@
             .section { padding: 80px 30px; }
             .section-title { font-size: 2rem; margin-bottom: 60px; }
             .skills-container { gap: 30px; }
+            
+            /* 移动端优化：技能 blob 触摸反馈 */
+            .skill-blob {
+                height: 200px;
+            }
+            
+            .skill-label {
+                font-size: 1.1rem;
+            }
+            
+            /* 项目卡片移动端优化 */
+            .projects-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .project-card {
+                height: 280px;
+            }
+            
+            .project-title {
+                font-size: 1.3rem;
+            }
+            
+            .project-desc {
+                font-size: 0.9rem;
+            }
+            
+            /* 触摸设备优化 */
+            @media (hover: none) and (pointer: coarse) {
+                .project-content {
+                    opacity: 1;
+                    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+                }
+                
+                .skill-blob:hover .skill-label {
+                    transform: translate(-50%, -50%) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 { font-size: 2rem; }
+            .header p { font-size: 0.9rem; }
+            .section { padding: 60px 20px; }
+            .section-title { font-size: 1.8rem; margin-bottom: 40px; }
+            
+            .skill-blob {
+                height: 160px;
+            }
+            
+            .project-card {
+                height: 240px;
+            }
+            
+            .footer {
+                padding: 60px 20px;
+            }
         }
     </style>
 </head>
@@ -377,6 +626,19 @@
         </filter>
     </svg>
 
+    <!-- 背景放大过渡效果容器 -->
+    <div class="transition-overlay" id="transitionOverlay">
+        <div class="expanding-background" id="expandingBackground"></div>
+    </div>
+    
+    <!-- 内容固定层 -->
+    <div class="content-fixed-layer" id="contentFixedLayer">
+        <div class="fixed-content" id="fixedContent">
+            <div class="project-title"></div>
+            <div class="project-desc"></div>
+        </div>
+    </div>
+
     <!-- Header 区域：灵感的源头 -->
     <header class="header">
         <div class="header-content">
@@ -387,127 +649,118 @@
         </div>
     </header>
 
-    <!-- 技能区域：流动的颜料团 -->
+    <!-- 统一环绕式创意布局 -->
     <section class="section">
-        <h2 class="section-title">🎨 颜料盘</h2>
-        <div class="skills-container">
-            <!-- 技能 1: JavaScript -->
-            <div class="skill-blob">
-                <svg viewBox="0 0 280 280">
+        <h2 class="section-title">🎨 创意星系</h2>
+        <div class="creative-orbit">
+            <!-- 中心Hub -->
+            <div class="center-hub">
+                <div class="hub-content">🎨</div>
+            </div>
+
+            <!-- 颜料盘元素 - 内圈 (4个技能) -->
+            <div class="skill-orbit-item" data-skill="game" style="top: 120px; left: 50%; transform: translate(-50%, -50%);">
+                <svg viewBox="0 0 100 100">
                     <defs>
-                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <linearGradient id="skill1" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style="stop-color:var(--primary-pink);stop-opacity:0.9" />
                             <stop offset="100%" style="stop-color:var(--primary-yellow);stop-opacity:0.9" />
                         </linearGradient>
                     </defs>
-                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad1)" opacity="0.85" />
-                    <circle cx="140" cy="140" r="110" fill="url(#grad1)" opacity="0.4" />
+                    <circle cx="50" cy="50" r="40" fill="url(#skill1)" opacity="0.85" />
+                    <circle cx="50" cy="50" r="45" fill="url(#skill1)" opacity="0.3" />
                 </svg>
                 <div class="skill-label">Game</div>
             </div>
 
-            <!-- 技能 2: Python -->
-            <div class="skill-blob">
-                <svg viewBox="0 0 280 280">
+            <div class="skill-orbit-item" data-skill="python" style="top: 50%; right: 120px; transform: translate(0, -50%);">
+                <svg viewBox="0 0 100 100">
                     <defs>
-                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <linearGradient id="skill2" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style="stop-color:var(--primary-cyan);stop-opacity:0.9" />
                             <stop offset="100%" style="stop-color:var(--primary-lime);stop-opacity:0.9" />
                         </linearGradient>
                     </defs>
-                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad2)" opacity="0.85" />
-                    <circle cx="140" cy="140" r="110" fill="url(#grad2)" opacity="0.4" />
+                    <circle cx="50" cy="50" r="40" fill="url(#skill2)" opacity="0.85" />
+                    <circle cx="50" cy="50" r="45" fill="url(#skill2)" opacity="0.3" />
                 </svg>
                 <div class="skill-label">Python</div>
             </div>
 
-            <!-- 技能 3: Design -->
-            <div class="skill-blob">
-                <svg viewBox="0 0 280 280">
+            <div class="skill-orbit-item" data-skill="design" style="bottom: 120px; left: 50%; transform: translate(-50%, 0);">
+                <svg viewBox="0 0 100 100">
                     <defs>
-                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <linearGradient id="skill3" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style="stop-color:var(--primary-purple);stop-opacity:0.9" />
                             <stop offset="100%" style="stop-color:var(--secondary-magenta);stop-opacity:0.9" />
                         </linearGradient>
                     </defs>
-                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad3)" opacity="0.85" />
-                    <circle cx="140" cy="140" r="110" fill="url(#grad3)" opacity="0.4" />
+                    <circle cx="50" cy="50" r="40" fill="url(#skill3)" opacity="0.85" />
+                    <circle cx="50" cy="50" r="45" fill="url(#skill3)" opacity="0.3" />
                 </svg>
-                <div class="skill-label">UI/UX Design</div>
+                <div class="skill-label">Design</div>
             </div>
 
-            <!-- 技能 4: AI Idea -->
-            <div class="skill-blob">
-                <svg viewBox="0 0 280 280">
+            <div class="skill-orbit-item" data-skill="ai" style="top: 50%; left: 120px; transform: translate(0, -50%);">
+                <svg viewBox="0 0 100 100">
                     <defs>
-                        <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <linearGradient id="skill4" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style="stop-color:var(--primary-orange);stop-opacity:0.9" />
                             <stop offset="100%" style="stop-color:var(--primary-pink);stop-opacity:0.9" />
                         </linearGradient>
                     </defs>
-                    <circle class="skill-blob-fill" cx="140" cy="140" r="100" fill="url(#grad4)" opacity="0.85" />
-                    <circle cx="140" cy="140" r="110" fill="url(#grad4)" opacity="0.4" />
+                    <circle cx="50" cy="50" r="40" fill="url(#skill4)" opacity="0.85" />
+                    <circle cx="50" cy="50" r="45" fill="url(#skill4)" opacity="0.3" />
                 </svg>
-                <div class="skill-label">AI & Creativity</div>
+                <div class="skill-label">AI</div>
             </div>
-        </div>
-    </section>
 
-    <!-- 项目展示区：色彩泼溅 -->
-    <section class="section">
-        <h2 class="section-title">🖌️ 画作</h2>
-        <div class="projects-container">
-            <!-- 项目 1 -->
-            <div class="project-card">
+            <!-- 画作元素 - 外圈 (6个项目) -->
+            <div class="project-orbit-item" data-project="just-run2" style="top: 80px; left: 50%; transform: translate(-50%, 0);">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #FF1B9B 0%, #FFE900 100%);"></div>
                 <div class="project-content">
                     <div class="project-title">Just Run2</div>
-                    <div class="project-desc">Rougelike游戏</div>
+                    <div class="project-desc">Rougelike游戏，无尽奔跑的冒险体验</div>
                 </div>
             </div>
 
-            <!-- 项目 2 -->
-            <div class="project-card">
+            <div class="project-orbit-item" data-project="project-ai" style="top: 200px; right: 100px;">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #00D4FF 0%, #BFFF00 100%);"></div>
                 <div class="project-content">
-                    <div class="project-title">项目二</div>
-                    <div class="project-desc">探索 AI 与创意的边界</div>
+                    <div class="project-title">AI 创意</div>
+                    <div class="project-desc">探索人工智能与创意的无限可能</div>
                 </div>
             </div>
 
-            <!-- 项目 3 -->
-            <div class="project-card">
+            <div class="project-orbit-item" data-project="project-interactive" style="bottom: 200px; right: 100px;">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #B800FF 0%, #FF00FF 100%);"></div>
                 <div class="project-content">
-                    <div class="project-title">项目三</div>
-                    <div class="project-desc">沉浸式的视觉艺术装置</div>
+                    <div class="project-title">互动装置</div>
+                    <div class="project-desc">沉浸式的视觉艺术体验空间</div>
                 </div>
             </div>
 
-            <!-- 项目 4 -->
-            <div class="project-card">
+            <div class="project-orbit-item" data-project="project-fusion" style="bottom: 80px; left: 50%; transform: translate(-50%, 0);">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #FF6B35 0%, #00D4FF 100%);"></div>
                 <div class="project-content">
-                    <div class="project-title">项目四</div>
-                    <div class="project-desc">融合技术与艺术的新尝试</div>
+                    <div class="project-title">技术融合</div>
+                    <div class="project-desc">突破传统艺术形式的创新尝试</div>
                 </div>
             </div>
 
-            <!-- 项目 5 -->
-            <div class="project-card">
+            <div class="project-orbit-item" data-project="project-future" style="bottom: 200px; left: 100px;">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #BFFF00 0%, #FF1B9B 100%);"></div>
                 <div class="project-content">
-                    <div class="project-title">项目五</div>
-                    <div class="project-desc">未来感的互动设计语言</div>
+                    <div class="project-title">未来设计</div>
+                    <div class="project-desc">定义下一代用户界面设计</div>
                 </div>
             </div>
 
-            <!-- 项目 6 -->
-            <div class="project-card">
+            <div class="project-orbit-item" data-project="project-creative" style="top: 200px; left: 100px;">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #7FFF00 0%, #FF00FF 100%);"></div>
                 <div class="project-content">
-                    <div class="project-title">项目六</div>
-                    <div class="project-desc">创意编程的无限可能</div>
+                    <div class="project-title">创意编程</div>
+                    <div class="project-desc">代码即艺术，算法即画笔</div>
                 </div>
             </div>
         </div>
@@ -594,6 +847,458 @@
             });
         });
 
+        // ========== 背景放大过渡效果（优化版） ==========
+        function triggerBackgroundExpand(projectCard, projectId) {
+            const overlay = document.getElementById('transitionOverlay');
+            const expandingBg = document.getElementById('expandingBackground');
+            const fixedLayer = document.getElementById('contentFixedLayer');
+            const fixedContent = document.getElementById('fixedContent');
+            
+            // 获取项目卡片的精确位置和样式
+            const cardRect = projectCard.getBoundingClientRect();
+            const splashElement = projectCard.querySelector('.project-splash');
+            const splashBg = splashElement.style.background;
+            const projectTitle = projectCard.querySelector('.project-title').textContent;
+            const projectDesc = projectCard.querySelector('.project-desc').textContent;
+            
+            // 计算从卡片到全屏的精确变换
+            const scaleX = window.innerWidth / cardRect.width;
+            const scaleY = window.innerHeight / cardRect.height;
+            const scale = Math.max(scaleX, scaleY) * 1.1; // 稍微放大确保完全覆盖
+            
+            // 计算需要移动的距离，使卡片中心与屏幕中心对齐
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const cardCenterX = cardRect.left + cardRect.width / 2;
+            const cardCenterY = cardRect.top + cardRect.height / 2;
+            
+            // 计算平移量
+            const translateX = centerX - cardCenterX;
+            const translateY = centerY - cardCenterY;
+            
+            // 设置展开背景的初始状态
+            expandingBg.style.position = 'fixed';
+            expandingBg.style.left = cardRect.left + 'px';
+            expandingBg.style.top = cardRect.top + 'px';
+            expandingBg.style.width = cardRect.width + 'px';
+            expandingBg.style.height = cardRect.height + 'px';
+            expandingBg.style.background = splashBg;
+            expandingBg.style.zIndex = '9999';
+            expandingBg.style.borderRadius = '20px';
+            expandingBg.style.transition = 'none';
+            expandingBg.style.transform = 'none';
+            
+            // 设置固定内容（完全复制原始内容的大小和位置）
+            const titleElement = fixedContent.querySelector('.project-title');
+            const descElement = fixedContent.querySelector('.project-desc');
+            
+            titleElement.textContent = projectTitle;
+            descElement.textContent = projectDesc;
+            
+            // 精确复制原始内容的字体大小和样式
+            const originalTitle = projectCard.querySelector('.project-title');
+            const originalDesc = projectCard.querySelector('.project-desc');
+            const originalTitleStyle = window.getComputedStyle(originalTitle);
+            const originalDescStyle = window.getComputedStyle(originalDesc);
+            
+            titleElement.style.fontSize = originalTitleStyle.fontSize;
+            titleElement.style.fontWeight = originalTitleStyle.fontWeight;
+            titleElement.style.marginBottom = originalTitleStyle.marginBottom;
+            titleElement.style.textShadow = '0 2px 8px rgba(0, 0, 0, 0.5)';
+            
+            descElement.style.fontSize = originalDescStyle.fontSize;
+            descElement.style.opacity = '0.9';
+            descElement.style.textShadow = '0 1px 4px rgba(0, 0, 0, 0.5)';
+            
+            // 计算固定内容的位置，使其与原始内容完全重叠
+            const titleRect = originalTitle.getBoundingClientRect();
+            const descRect = originalDesc.getBoundingClientRect();
+            
+            // 设置固定内容的位置
+            fixedContent.style.position = 'absolute';
+            fixedContent.style.left = '0';
+            fixedContent.style.top = '0';
+            fixedContent.style.width = '100%';
+            fixedContent.style.height = '100%';
+            fixedContent.style.display = 'flex';
+            fixedContent.style.flexDirection = 'column';
+            fixedContent.style.justifyContent = 'flex-end';
+            fixedContent.style.padding = window.getComputedStyle(projectCard.querySelector('.project-content')).padding;
+            fixedContent.style.textAlign = 'center';
+            
+            // 显示遮罩层和固定内容
+            overlay.style.opacity = '1';
+            fixedLayer.style.opacity = '1';
+            
+            // 强制重排以应用初始状态
+            expandingBg.offsetHeight;
+            
+            // 应用动画变换
+            expandingBg.style.transition = 'all 0.8s cubic-bezier(0.23, 1, 0.320, 1)';
+            expandingBg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            expandingBg.style.borderRadius = '0';
+            
+            // 延迟跳转到项目页面
+            setTimeout(() => {
+                window.location.href = `projects/${projectId}.html`;
+            }, 800);
+        }
+
+        // ========== 项目卡片点击事件 ==========
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const projectId = card.getAttribute('data-project');
+                if (projectId) {
+                    triggerBackgroundExpand(card, projectId);
+                }
+            });
+        });
+
+        // ========== 技能 Blob 点击事件 ==========
+        document.querySelectorAll('.skill-blob').forEach(blob => {
+            blob.addEventListener('click', (e) => {
+                // 技能 blob 也可以有颜料效果
+                blob.style.animation = 'none';
+                setTimeout(() => {
+                    blob.style.animation = '';
+                }, 10);
+            });
+        });
+
+        // ========== 鼠标轨迹特效（轻量级） ==========
+        let mouseTrailTimer = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - mouseTrailTimer < 100) return; // 限制轨迹频率，节省资源
+            mouseTrailTimer = now;
+
+            // 创建轻微的鼠标轨迹效果
+            const trail = document.createElement('div');
+            trail.style.position = 'fixed';
+            trail.style.width = '2px';
+            trail.style.height = '2px';
+            trail.style.background = 'var(--primary-cyan)';
+            trail.style.borderRadius = '50%';
+            trail.style.pointerEvents = 'none';
+            trail.style.zIndex = '9998';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            trail.style.opacity = '0.6';
+            trail.style.transition = 'opacity 0.5s ease';
+            
+            document.body.appendChild(trail);
+            
+            // 淡出效果
+            setTimeout(() => {
+                trail.style.opacity = '0';
+                setTimeout(() => {
+                    trail.remove();
+                }, 500);
+            }, 100);
+        });
+
+        // ========== 触摸设备优化 ==========
+        let touchStartTime = 0;
+        
+        document.addEventListener('touchstart', (e) => {
+            touchStartTime = Date.now();
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            const touchDuration = Date.now() - touchStartTime;
+            const target = e.target.closest('.project-card, .skill-blob');
+            
+            if (target && touchDuration < 200) { // 快速触摸
+                // 创建触摸反馈效果
+                const touch = e.changedTouches[0];
+                const ripple = document.createElement('div');
+                ripple.style.position = 'fixed';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.background = 'radial-gradient(circle, var(--primary-pink), transparent)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.zIndex = '9997';
+                ripple.style.left = touch.clientX - 10 + 'px';
+                ripple.style.top = touch.clientY - 10 + 'px';
+                ripple.style.opacity = '0.8';
+                ripple.style.animation = 'ripple-expand 0.6s ease-out forwards';
+                
+                document.body.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+        }, { passive: true });
+
+        // 添加触摸反馈动画
+        const touchStyle = document.createElement('style');
+        touchStyle.textContent = `
+            @keyframes ripple-expand {
+                0% { transform: scale(1); opacity: 0.8; }
+                100% { transform: scale(3); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(touchStyle);
+
+        // ========== 统一环绕布局动态管理 ==========
+        function initializeUnifiedOrbit() {
+            const container = document.querySelector('.creative-orbit');
+            const skills = document.querySelectorAll('.skill-orbit-item');
+            const projects = document.querySelectorAll('.project-orbit-item');
+            const hub = document.querySelector('.center-hub');
+            
+            const containerRect = container.getBoundingClientRect();
+            const centerX = containerRect.width / 2;
+            const centerY = containerRect.height / 2;
+            
+            // 内圈半径（技能）
+            const innerRadius = 180;
+            // 外圈半径（项目）
+            const outerRadius = 320;
+            
+            // 放置技能在内圈 - 4个技能，每90度一个
+            skills.forEach((skill, index) => {
+                const angle = (index * 90 - 90) * (Math.PI / 180); // 从顶部开始
+                const x = centerX + innerRadius * Math.cos(angle) - 50; // 50是技能宽度的一半
+                const y = centerY + innerRadius * Math.sin(angle) - 50; // 50是技能高度的一半
+                
+                skill.style.left = x + 'px';
+                skill.style.top = y + 'px';
+                skill.dataset.angle = angle;
+                skill.dataset.radius = innerRadius;
+            });
+            
+            // 放置项目在外圈 - 6个项目，每60度一个
+            projects.forEach((project, index) => {
+                const angle = (index * 60 - 90) * (Math.PI / 180); // 从顶部开始，与技能错开30度
+                const x = centerX + outerRadius * Math.cos(angle) - 70; // 70是项目宽度的一半
+                const y = centerY + outerRadius * Math.sin(angle) - 70; // 70是项目高度的一半
+                
+                project.style.left = x + 'px';
+                project.style.top = y + 'px';
+                project.dataset.angle = angle;
+                project.dataset.radius = outerRadius;
+            });
+            
+            // 为项目添加挤开效果
+            projects.forEach((project, index) => {
+                project.addEventListener('mouseenter', () => {
+                    pushAwayOrbitItems(project, index, projects, centerX, centerY, outerRadius);
+                });
+                
+                project.addEventListener('mouseleave', () => {
+                    resetOrbitItems(projects, centerX, centerY, outerRadius);
+                });
+            });
+            
+            // 为技能添加hover效果
+            skills.forEach((skill, index) => {
+                skill.addEventListener('mouseenter', () => {
+                    skill.style.transform = 'scale(1.15)';
+                    skill.style.zIndex = '90';
+                });
+                
+                skill.addEventListener('mouseleave', () => {
+                    skill.style.transform = 'scale(1)';
+                    skill.style.zIndex = '80';
+                });
+            });
+        }
+
+        function pushAwayOrbitItems(hoveredItem, hoveredIndex, items, centerX, centerY, radius) {
+            const pushDistance = 25; // 挤开距离
+            const influenceAngle = 40 * (Math.PI / 180); // 影响角度范围
+            
+            items.forEach((item, index) => {
+                if (index === hoveredIndex) return;
+                
+                const hoveredAngle = parseFloat(hoveredItem.dataset.angle);
+                const itemAngle = parseFloat(item.dataset.angle);
+                
+                // 计算角度差
+                let angleDiff = Math.abs(hoveredAngle - itemAngle);
+                if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
+                
+                if (angleDiff <= influenceAngle) {
+                    // 计算推开方向（径向向外）
+                    const pushAngle = itemAngle;
+                    const pushX = pushDistance * Math.cos(pushAngle);
+                    const pushY = pushDistance * Math.sin(pushAngle);
+                    
+                    const currentX = parseFloat(item.style.left);
+                    const currentY = parseFloat(item.style.top);
+                    const itemWidth = item.offsetWidth / 2;
+                    const itemHeight = item.offsetHeight / 2;
+                    
+                    item.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                    item.style.left = (currentX + pushX) + 'px';
+                    item.style.top = (currentY + pushY) + 'px';
+                    item.style.opacity = '0.7';
+                    item.style.transform = 'scale(0.9)';
+                }
+            });
+        }
+
+        function resetOrbitItems(items, centerX, centerY, radius) {
+            items.forEach(item => {
+                const angle = parseFloat(item.dataset.angle);
+                const itemWidth = item.offsetWidth / 2;
+                const itemHeight = item.offsetHeight / 2;
+                
+                const x = centerX + radius * Math.cos(angle) - itemWidth;
+                const y = centerY + radius * Math.sin(angle) - itemHeight;
+                
+                item.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                item.style.left = x + 'px';
+                item.style.top = y + 'px';
+                item.style.opacity = '1';
+                item.style.transform = 'scale(1)';
+            });
+        }
+
+        function pushAwayNeighbors(hoveredProject, hoveredIndex, projects, centerX, centerY, radius) {
+            const pushDistance = 30; // 挤开的距离
+            const influenceAngle = 45 * (Math.PI / 180); // 影响角度范围
+            
+            projects.forEach((project, index) => {
+                if (index === hoveredIndex) return;
+                
+                const hoveredAngle = parseFloat(hoveredProject.dataset.angle);
+                const projectAngle = parseFloat(project.dataset.angle);
+                
+                // 计算角度差
+                let angleDiff = Math.abs(hoveredAngle - projectAngle);
+                if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
+                
+                if (angleDiff <= influenceAngle) {
+                    // 计算推开方向（径向向外）
+                    const pushAngle = projectAngle;
+                    const pushX = pushDistance * Math.cos(pushAngle);
+                    const pushY = pushDistance * Math.sin(pushAngle);
+                    
+                    const originalX = parseFloat(project.dataset.originalX);
+                    const originalY = parseFloat(project.dataset.originalY);
+                    
+                    project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                    project.style.left = (originalX + pushX) + 'px';
+                    project.style.top = (originalY + pushY) + 'px';
+                    project.style.opacity = '0.7';
+                    project.style.transform = 'scale(0.95)';
+                }
+            });
+        }
+
+        function resetProjectPositions(projects, centerX, centerY, radius) {
+            projects.forEach(project => {
+                const originalX = parseFloat(project.dataset.originalX);
+                const originalY = parseFloat(project.dataset.originalY);
+                
+                project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                project.style.left = originalX + 'px';
+                project.style.top = originalY + 'px';
+                project.style.opacity = '1';
+                project.style.transform = 'scale(1)';
+            });
+        }
+
+        // ========== 初始化 ==========
+        // 生成首个思维粒子
+        createThoughtParticle();
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎨 创意星系已加载 — 开始你的环绕之旅');
+            initializeUnifiedOrbit();
+        });
+
+        // 窗口大小改变时重新计算布局
+        window.addEventListener('resize', () => {
+            setTimeout(initializeUnifiedOrbit, 100);
+        });
+    </script>
+</body>
+</html>
+            const containerRect = container.getBoundingClientRect();
+            const centerX = containerRect.width / 2;
+            const centerY = containerRect.height / 2;
+            const radius = Math.min(centerX, centerY) - 120; // 留出边缘空间
+            
+            projects.forEach((project, index) => {
+                const angle = (index * 60 - 90) * (Math.PI / 180); // 从顶部开始，每60度一个
+                const x = centerX + radius * Math.cos(angle) - 90; // 90是项目卡片宽度的一半
+                const y = centerY + radius * Math.sin(angle) - 90; // 90是项目卡片高度的一半
+                
+                project.style.position = 'absolute';
+                project.style.left = x + 'px';
+                project.style.top = y + 'px';
+                project.style.transform = 'none';
+                
+                // 添加数据属性用于动画计算
+                project.dataset.originalX = x;
+                project.dataset.originalY = y;
+                project.dataset.angle = angle;
+                project.dataset.index = index;
+            });
+            
+            // 添加hover时的挤开效果
+            projects.forEach((project, index) => {
+                project.addEventListener('mouseenter', () => {
+                    pushAwayNeighbors(project, index, projects, centerX, centerY, radius);
+                });
+                
+                project.addEventListener('mouseleave', () => {
+                    resetProjectPositions(projects, centerX, centerY, radius);
+                });
+            });
+        }
+
+        function pushAwayNeighbors(hoveredProject, hoveredIndex, projects, centerX, centerY, radius) {
+            const pushDistance = 30; // 挤开的距离
+            const influenceAngle = 45 * (Math.PI / 180); // 影响角度范围
+            
+            projects.forEach((project, index) => {
+                if (index === hoveredIndex) return;
+                
+                const hoveredAngle = parseFloat(hoveredProject.dataset.angle);
+                const projectAngle = parseFloat(project.dataset.angle);
+                
+                // 计算角度差
+                let angleDiff = Math.abs(hoveredAngle - projectAngle);
+                if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
+                
+                if (angleDiff <= influenceAngle) {
+                    // 计算推开方向（径向向外）
+                    const pushAngle = projectAngle;
+                    const pushX = pushDistance * Math.cos(pushAngle);
+                    const pushY = pushDistance * Math.sin(pushAngle);
+                    
+                    const originalX = parseFloat(project.dataset.originalX);
+                    const originalY = parseFloat(project.dataset.originalY);
+                    
+                    project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                    project.style.left = (originalX + pushX) + 'px';
+                    project.style.top = (originalY + pushY) + 'px';
+                    project.style.opacity = '0.7';
+                    project.style.transform = 'scale(0.95)';
+                }
+            });
+        }
+
+        function resetProjectPositions(projects, centerX, centerY, radius) {
+            projects.forEach(project => {
+                const originalX = parseFloat(project.dataset.originalX);
+                const originalY = parseFloat(project.dataset.originalY);
+                
+                project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                project.style.left = originalX + 'px';
+                project.style.top = originalY + 'px';
+                project.style.opacity = '1';
+                project.style.transform = 'scale(1)';
+            });
+        }
+
         // ========== 初始化 ==========
         // 生成首个思维粒子
         createThoughtParticle();
@@ -601,6 +1306,12 @@
         // 页面加载完成后的初始化
         document.addEventListener('DOMContentLoaded', () => {
             console.log('🎨 创意画布已加载 — 开始你的想象之旅');
+            initializeProjectLayout();
+        });
+
+        // 窗口大小改变时重新计算布局
+        window.addEventListener('resize', () => {
+            setTimeout(initializeProjectLayout, 100);
         });
     </script>
 </body>
