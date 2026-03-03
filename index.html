@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dsixy 的 Idea 池</title>
-
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dsixy 的 Idea 池</title>
     <style>
         /* ========== CSS 变量与颜色系统 ========== */
         :root {
@@ -64,70 +57,7 @@
             z-index: -1;
         }
 
-        /* ========== Header 区域 ========== */
-        .header {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 27, 155, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float-glow 8s ease-in-out infinite;
-            top: 10%;
-            right: 5%;
-            z-index: 0;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float-glow 10s ease-in-out infinite 1s;
-            bottom: 10%;
-            left: 5%;
-            z-index: 0;
-        }
-
-        .header-content {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            padding: 40px;
-        }
-
-        .header h1 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple), var(--primary-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fade-in 1.2s ease-out;
-        }
-
-        .header p {
-            font-size: 1.3rem;
-            color: var(--text-dark);
-            font-weight: 300;
-            letter-spacing: 1px;
-            animation: fade-in 1.2s ease-out 0.3s both;
-            line-height: 1.8;
-        }
 
         /* 闪烁的思维粒子 */
         .thought-particle {
@@ -137,81 +67,31 @@
             z-index: 0;
         }
 
-        /* ========== 统一环绕式布局系统 ========== */
-        .section {
-            padding: 40px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+/* ========== 紧凑画板布局 ========== */
+        .creative-canvas {
             position: relative;
             min-height: 100vh;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
         }
 
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 900;
-            margin-bottom: 40px;
+.mini-header {
+            padding: 20px 40px;
             text-align: center;
-            position: relative;
+        }
+
+        .mini-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
             letter-spacing: -1px;
-            z-index: 100;
-        }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary-pink), var(--primary-cyan));
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* ========== 统一环绕容器 ========== */
-        .unified-container {
-            position: relative;
-            width: 900px;
-            height: 900px;
-            margin: 0 auto;
-        }
-
-        /* ========== 中心hub ========== */
-        .center-hub {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, var(--bg-light) 0%, rgba(254, 254, 248, 0.9) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-            border: 3px solid rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-        }
-
-        .center-hub::before {
-            content: '🎨';
-            font-size: 2.5rem;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .skill-blob:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
+            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple), var(--primary-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
         }
 
         /* ========== 统一环绕布局系统 ========== */
@@ -363,71 +243,7 @@
             transform: translateY(-3px);
         }
 
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .skills-container {
-                width: 350px;
-                height: 350px;
-            }
-            
-            .skill-blob {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .skill-label {
-                font-size: 0.8rem;
-            }
-            
-            .projects-container {
-                width: 500px;
-                height: 500px;
-            }
-            
-            .project-card {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .project-title {
-                font-size: 0.9rem;
-            }
-            
-            .project-desc {
-                font-size: 0.7rem;
-                max-width: 100px;
-            }
-            
-            .center-hub {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .center-hub::before {
-                font-size: 2rem;
-            }
-        }
 
-        @media (max-width: 480px) {
-            .skills-container {
-                width: 280px;
-                height: 280px;
-            }
-            
-            .projects-container {
-                width: 400px;
-                height: 400px;
-            }
-            
-            .project-card {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .section {
-                padding: 60px 20px;
-            }
-        }
 
         /* 挤开效果 - 相邻元素会被推开 */
         .creative-orbit:has(.project-orbit-item:hover) .project-orbit-item:not(:hover) {
@@ -639,27 +455,23 @@
         </div>
     </div>
 
-    <!-- Header 区域：灵感的源头 -->
-    <header class="header">
-        <div class="header-content">
-            <h1>✨ Dsixy 的 Idea 池</h1>
-            <p>
-                欢迎来到我的数字画廊，探索那些未完成的画作和流动的颜料团。
-            </p>
-        </div>
-    </header>
-
-    <!-- 统一环绕式创意布局 -->
-    <section class="section">
-        <h2 class="section-title">🎨 创意星系</h2>
+<!-- 极简标题 -->
+    <div class="mini-header">
+        <h1>✨ Dsixy 的 Idea 池</h1>
+    </div>
+    
+    <!-- 紧凑的创意画板布局 -->
+    <div class="creative-canvas">
+        
+        <!-- 统一环绕式创意布局 -->
         <div class="creative-orbit">
             <!-- 中心Hub -->
             <div class="center-hub">
                 <div class="hub-content">🎨</div>
             </div>
 
-            <!-- 颜料盘元素 - 内圈 (4个技能) -->
-            <div class="skill-orbit-item" data-skill="game" style="top: 120px; left: 50%; transform: translate(-50%, -50%);">
+<!-- 颜料盘元素 - 内圈 (4个技能) -->
+            <div class="skill-orbit-item" data-skill="game">
                 <svg viewBox="0 0 100 100">
                     <defs>
                         <linearGradient id="skill1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -673,7 +485,7 @@
                 <div class="skill-label">Game</div>
             </div>
 
-            <div class="skill-orbit-item" data-skill="python" style="top: 50%; right: 120px; transform: translate(0, -50%);">
+            <div class="skill-orbit-item" data-skill="python">
                 <svg viewBox="0 0 100 100">
                     <defs>
                         <linearGradient id="skill2" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -687,7 +499,7 @@
                 <div class="skill-label">Python</div>
             </div>
 
-            <div class="skill-orbit-item" data-skill="design" style="bottom: 120px; left: 50%; transform: translate(-50%, 0);">
+            <div class="skill-orbit-item" data-skill="design">
                 <svg viewBox="0 0 100 100">
                     <defs>
                         <linearGradient id="skill3" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -701,7 +513,7 @@
                 <div class="skill-label">Design</div>
             </div>
 
-            <div class="skill-orbit-item" data-skill="ai" style="top: 50%; left: 120px; transform: translate(0, -50%);">
+            <div class="skill-orbit-item" data-skill="ai">
                 <svg viewBox="0 0 100 100">
                     <defs>
                         <linearGradient id="skill4" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -715,8 +527,8 @@
                 <div class="skill-label">AI</div>
             </div>
 
-            <!-- 画作元素 - 外圈 (6个项目) -->
-            <div class="project-orbit-item" data-project="just-run2" style="top: 80px; left: 50%; transform: translate(-50%, 0);">
+<!-- 画作元素 - 外圈 (6个项目) -->
+            <div class="project-orbit-item" data-project="just-run2">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #FF1B9B 0%, #FFE900 100%);"></div>
                 <div class="project-content">
                     <div class="project-title">Just Run2</div>
@@ -724,7 +536,7 @@
                 </div>
             </div>
 
-            <div class="project-orbit-item" data-project="project-ai" style="top: 200px; right: 100px;">
+            <div class="project-orbit-item" data-project="project-ai">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #00D4FF 0%, #BFFF00 100%);"></div>
                 <div class="project-content">
                     <div class="project-title">AI 创意</div>
@@ -732,7 +544,7 @@
                 </div>
             </div>
 
-            <div class="project-orbit-item" data-project="project-interactive" style="bottom: 200px; right: 100px;">
+            <div class="project-orbit-item" data-project="project-interactive">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #B800FF 0%, #FF00FF 100%);"></div>
                 <div class="project-content">
                     <div class="project-title">互动装置</div>
@@ -740,7 +552,7 @@
                 </div>
             </div>
 
-            <div class="project-orbit-item" data-project="project-fusion" style="bottom: 80px; left: 50%; transform: translate(-50%, 0);">
+            <div class="project-orbit-item" data-project="project-fusion">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #FF6B35 0%, #00D4FF 100%);"></div>
                 <div class="project-content">
                     <div class="project-title">技术融合</div>
@@ -748,7 +560,7 @@
                 </div>
             </div>
 
-            <div class="project-orbit-item" data-project="project-future" style="bottom: 200px; left: 100px;">
+            <div class="project-orbit-item" data-project="project-future">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #BFFF00 0%, #FF1B9B 100%);"></div>
                 <div class="project-content">
                     <div class="project-title">未来设计</div>
@@ -756,7 +568,7 @@
                 </div>
             </div>
 
-            <div class="project-orbit-item" data-project="project-creative" style="top: 200px; left: 100px;">
+            <div class="project-orbit-item" data-project="project-creative">
                 <div class="project-splash primary" style="background: linear-gradient(135deg, #7FFF00 0%, #FF00FF 100%);"></div>
                 <div class="project-content">
                     <div class="project-title">创意编程</div>
@@ -764,7 +576,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -772,9 +584,13 @@
     </footer>
 
     <script>
-        // ========== 思维粒子效果 ==========
+// ========== 思维粒子效果 ==========
         function createThoughtParticle() {
-            const header = document.querySelector('.header');
+            const container = document.querySelector('.creative-canvas');
+            if (!container) {
+                console.error('未找到 .creative-canvas 元素');
+                return;
+            }
             const particle = document.createElement('div');
             particle.className = 'thought-particle';
             
@@ -798,7 +614,7 @@
             particle.style.setProperty('--tx', tx + 'px');
             particle.style.setProperty('--ty', ty + 'px');
             
-            header.appendChild(particle);
+            container.appendChild(particle);
             
             setTimeout(() => particle.remove(), 6000);
         }
@@ -806,36 +622,9 @@
         // 定期生成思维粒子
         setInterval(createThoughtParticle, 1200);
 
-        // ========== 项目卡片鼠标跟随效果 ==========
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                // 创建光晕跟随效果
-                const splash = card.querySelector('.project-splash');
-                const offsetX = (x - rect.width / 2) * 0.15;
-                const offsetY = (y - rect.height / 2) * 0.15;
-                
-                splash.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                const splash = card.querySelector('.project-splash');
-                splash.style.transform = 'translate(0, 0)';
-            });
-        });
 
-        // ========== 技能 Blob 的交互增强 ==========
-        document.querySelectorAll('.skill-blob').forEach(blob => {
-            blob.addEventListener('click', () => {
-                blob.style.animation = 'none';
-                setTimeout(() => {
-                    blob.style.animation = '';
-                }, 10);
-            });
-        });
+
+
 
         // ========== 页面滚动时的视差效果 ==========
         window.addEventListener('scroll', () => {
@@ -944,8 +733,8 @@
             }, 800);
         }
 
-        // ========== 项目卡片点击事件 ==========
-        document.querySelectorAll('.project-card').forEach(card => {
+        // ========== 项目轨道点击事件 ==========
+        document.querySelectorAll('.project-orbit-item').forEach(card => {
             card.addEventListener('click', (e) => {
                 const projectId = card.getAttribute('data-project');
                 if (projectId) {
@@ -954,16 +743,7 @@
             });
         });
 
-        // ========== 技能 Blob 点击事件 ==========
-        document.querySelectorAll('.skill-blob').forEach(blob => {
-            blob.addEventListener('click', (e) => {
-                // 技能 blob 也可以有颜料效果
-                blob.style.animation = 'none';
-                setTimeout(() => {
-                    blob.style.animation = '';
-                }, 10);
-            });
-        });
+
 
         // ========== 鼠标轨迹特效（轻量级） ==========
         let mouseTrailTimer = 0;
@@ -1006,7 +786,7 @@
 
         document.addEventListener('touchend', (e) => {
             const touchDuration = Date.now() - touchStartTime;
-            const target = e.target.closest('.project-card, .skill-blob');
+const target = e.target.closest('.project-orbit-item, .skill-orbit-item');
             
             if (target && touchDuration < 200) { // 快速触摸
                 // 创建触摸反馈效果
@@ -1042,61 +822,103 @@
         `;
         document.head.appendChild(touchStyle);
 
-        // ========== 统一环绕布局动态管理 ==========
+        // ========== 配置参数 ==========
+        const ORBIT_CONFIG = {
+            // 容器尺寸
+            containerWidth: 800,
+            containerHeight: 800,
+            
+            // 内圈配置（技能）
+            innerCount: 4,
+            innerRadius: 140,
+            innerElementSize: 100,
+            innerHoverScale: 1.15,
+            
+            // 外圈配置（项目）
+            outerCount: 6,
+            outerRadius: 260,
+            outerElementSize: 140,
+            outerHoverScale: 1.2,
+            
+            // 中心Hub
+            hubSize: 160,
+            
+            // 动画参数
+            pushDistance: 100,
+            influenceAngle: 40, // 度
+            animationDuration: '0.4s',
+            animationEasing: 'cubic-bezier(0.23, 1, 0.320, 1)'
+        };
+
+// ========== 统一环绕布局动态管理 ==========
         function initializeUnifiedOrbit() {
             const container = document.querySelector('.creative-orbit');
+            if (!container) {
+                console.error('未找到 .creative-orbit 元素');
+                return;
+            }
+            
             const skills = document.querySelectorAll('.skill-orbit-item');
             const projects = document.querySelectorAll('.project-orbit-item');
             const hub = document.querySelector('.center-hub');
+            if (!hub) {
+                console.error('未找到 .center-hub 元素');
+                return;
+            }
             
             const containerRect = container.getBoundingClientRect();
             const centerX = containerRect.width / 2;
             const centerY = containerRect.height / 2;
             
-            // 内圈半径（技能）
-            const innerRadius = 180;
-            // 外圈半径（项目）
-            const outerRadius = 320;
+            // 配置中心Hub大小
+            hub.style.width = ORBIT_CONFIG.hubSize + 'px';
+            hub.style.height = ORBIT_CONFIG.hubSize + 'px';
             
-            // 放置技能在内圈 - 4个技能，每90度一个
+            // 放置技能在内圈
             skills.forEach((skill, index) => {
-                const angle = (index * 90 - 90) * (Math.PI / 180); // 从顶部开始
-                const x = centerX + innerRadius * Math.cos(angle) - 50; // 50是技能宽度的一半
-                const y = centerY + innerRadius * Math.sin(angle) - 50; // 50是技能高度的一半
+                const angle = (index * (360 / ORBIT_CONFIG.innerCount) - 90) * (Math.PI / 180);
+                const x = centerX + ORBIT_CONFIG.innerRadius * Math.cos(angle) - (ORBIT_CONFIG.innerElementSize / 2);
+                const y = centerY + ORBIT_CONFIG.innerRadius * Math.sin(angle) - (ORBIT_CONFIG.innerElementSize / 2);
                 
                 skill.style.left = x + 'px';
                 skill.style.top = y + 'px';
+                skill.style.width = ORBIT_CONFIG.innerElementSize + 'px';
+                skill.style.height = ORBIT_CONFIG.innerElementSize + 'px';
                 skill.dataset.angle = angle;
-                skill.dataset.radius = innerRadius;
+                skill.dataset.radius = ORBIT_CONFIG.innerRadius;
             });
             
-            // 放置项目在外圈 - 6个项目，每60度一个
+            // 放置项目在外圈
             projects.forEach((project, index) => {
-                const angle = (index * 60 - 90) * (Math.PI / 180); // 从顶部开始，与技能错开30度
-                const x = centerX + outerRadius * Math.cos(angle) - 70; // 70是项目宽度的一半
-                const y = centerY + outerRadius * Math.sin(angle) - 70; // 70是项目高度的一半
+                const angle = (index * (360 / ORBIT_CONFIG.outerCount) - 90) * (Math.PI / 180);
+                const x = centerX + ORBIT_CONFIG.outerRadius * Math.cos(angle) - (ORBIT_CONFIG.outerElementSize / 2);
+                const y = centerY + ORBIT_CONFIG.outerRadius * Math.sin(angle) - (ORBIT_CONFIG.outerElementSize / 2);
                 
                 project.style.left = x + 'px';
                 project.style.top = y + 'px';
+                project.style.width = ORBIT_CONFIG.outerElementSize + 'px';
+                project.style.height = ORBIT_CONFIG.outerElementSize + 'px';
                 project.dataset.angle = angle;
-                project.dataset.radius = outerRadius;
+                project.dataset.radius = ORBIT_CONFIG.outerRadius;
             });
             
-            // 为项目添加挤开效果
+        // 为项目添加挤开效果
             projects.forEach((project, index) => {
                 project.addEventListener('mouseenter', () => {
-                    pushAwayOrbitItems(project, index, projects, centerX, centerY, outerRadius);
+                    console.log(`项目 ${index} 进入hover状态`);
+                    pushAwayOrbitItems(project, index, projects, centerX, centerY, ORBIT_CONFIG.outerRadius);
                 });
                 
                 project.addEventListener('mouseleave', () => {
-                    resetOrbitItems(projects, centerX, centerY, outerRadius);
+                    console.log(`项目 ${index} 离开hover状态`);
+                    resetOrbitItems(projects, centerX, centerY, ORBIT_CONFIG.outerRadius);
                 });
             });
             
             // 为技能添加hover效果
             skills.forEach((skill, index) => {
                 skill.addEventListener('mouseenter', () => {
-                    skill.style.transform = 'scale(1.15)';
+                    skill.style.transform = `scale(${ORBIT_CONFIG.innerHoverScale})`;
                     skill.style.zIndex = '90';
                 });
                 
@@ -1108,8 +930,8 @@
         }
 
         function pushAwayOrbitItems(hoveredItem, hoveredIndex, items, centerX, centerY, radius) {
-            const pushDistance = 25; // 挤开距离
-            const influenceAngle = 40 * (Math.PI / 180); // 影响角度范围
+            const pushDistance = ORBIT_CONFIG.pushDistance;
+            const influenceAngle = ORBIT_CONFIG.influenceAngle * (Math.PI / 180);
             
             items.forEach((item, index) => {
                 if (index === hoveredIndex) return;
@@ -1129,10 +951,8 @@
                     
                     const currentX = parseFloat(item.style.left);
                     const currentY = parseFloat(item.style.top);
-                    const itemWidth = item.offsetWidth / 2;
-                    const itemHeight = item.offsetHeight / 2;
                     
-                    item.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                    item.style.transition = `all ${ORBIT_CONFIG.animationDuration} ${ORBIT_CONFIG.animationEasing}`;
                     item.style.left = (currentX + pushX) + 'px';
                     item.style.top = (currentY + pushY) + 'px';
                     item.style.opacity = '0.7';
@@ -1141,7 +961,7 @@
             });
         }
 
-        function resetOrbitItems(items, centerX, centerY, radius) {
+function resetOrbitItems(items, centerX, centerY, radius) {
             items.forEach(item => {
                 const angle = parseFloat(item.dataset.angle);
                 const itemWidth = item.offsetWidth / 2;
@@ -1150,56 +970,11 @@
                 const x = centerX + radius * Math.cos(angle) - itemWidth;
                 const y = centerY + radius * Math.sin(angle) - itemHeight;
                 
-                item.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
+                item.style.transition = `all ${ORBIT_CONFIG.animationDuration} ${ORBIT_CONFIG.animationEasing}`;
                 item.style.left = x + 'px';
                 item.style.top = y + 'px';
                 item.style.opacity = '1';
                 item.style.transform = 'scale(1)';
-            });
-        }
-
-        function pushAwayNeighbors(hoveredProject, hoveredIndex, projects, centerX, centerY, radius) {
-            const pushDistance = 30; // 挤开的距离
-            const influenceAngle = 45 * (Math.PI / 180); // 影响角度范围
-            
-            projects.forEach((project, index) => {
-                if (index === hoveredIndex) return;
-                
-                const hoveredAngle = parseFloat(hoveredProject.dataset.angle);
-                const projectAngle = parseFloat(project.dataset.angle);
-                
-                // 计算角度差
-                let angleDiff = Math.abs(hoveredAngle - projectAngle);
-                if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
-                
-                if (angleDiff <= influenceAngle) {
-                    // 计算推开方向（径向向外）
-                    const pushAngle = projectAngle;
-                    const pushX = pushDistance * Math.cos(pushAngle);
-                    const pushY = pushDistance * Math.sin(pushAngle);
-                    
-                    const originalX = parseFloat(project.dataset.originalX);
-                    const originalY = parseFloat(project.dataset.originalY);
-                    
-                    project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
-                    project.style.left = (originalX + pushX) + 'px';
-                    project.style.top = (originalY + pushY) + 'px';
-                    project.style.opacity = '0.7';
-                    project.style.transform = 'scale(0.95)';
-                }
-            });
-        }
-
-        function resetProjectPositions(projects, centerX, centerY, radius) {
-            projects.forEach(project => {
-                const originalX = parseFloat(project.dataset.originalX);
-                const originalY = parseFloat(project.dataset.originalY);
-                
-                project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
-                project.style.left = originalX + 'px';
-                project.style.top = originalY + 'px';
-                project.style.opacity = '1';
-                project.style.transform = 'scale(1)';
             });
         }
 
@@ -1220,98 +995,10 @@
     </script>
 </body>
 </html>
-            const containerRect = container.getBoundingClientRect();
-            const centerX = containerRect.width / 2;
-            const centerY = containerRect.height / 2;
-            const radius = Math.min(centerX, centerY) - 120; // 留出边缘空间
-            
-            projects.forEach((project, index) => {
-                const angle = (index * 60 - 90) * (Math.PI / 180); // 从顶部开始，每60度一个
-                const x = centerX + radius * Math.cos(angle) - 90; // 90是项目卡片宽度的一半
-                const y = centerY + radius * Math.sin(angle) - 90; // 90是项目卡片高度的一半
-                
-                project.style.position = 'absolute';
-                project.style.left = x + 'px';
-                project.style.top = y + 'px';
-                project.style.transform = 'none';
-                
-                // 添加数据属性用于动画计算
-                project.dataset.originalX = x;
-                project.dataset.originalY = y;
-                project.dataset.angle = angle;
-                project.dataset.index = index;
-            });
-            
-            // 添加hover时的挤开效果
-            projects.forEach((project, index) => {
-                project.addEventListener('mouseenter', () => {
-                    pushAwayNeighbors(project, index, projects, centerX, centerY, radius);
-                });
-                
-                project.addEventListener('mouseleave', () => {
-                    resetProjectPositions(projects, centerX, centerY, radius);
-                });
-            });
-        }
-
-        function pushAwayNeighbors(hoveredProject, hoveredIndex, projects, centerX, centerY, radius) {
-            const pushDistance = 30; // 挤开的距离
-            const influenceAngle = 45 * (Math.PI / 180); // 影响角度范围
-            
-            projects.forEach((project, index) => {
-                if (index === hoveredIndex) return;
-                
-                const hoveredAngle = parseFloat(hoveredProject.dataset.angle);
-                const projectAngle = parseFloat(project.dataset.angle);
-                
-                // 计算角度差
-                let angleDiff = Math.abs(hoveredAngle - projectAngle);
-                if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
-                
-                if (angleDiff <= influenceAngle) {
-                    // 计算推开方向（径向向外）
-                    const pushAngle = projectAngle;
-                    const pushX = pushDistance * Math.cos(pushAngle);
-                    const pushY = pushDistance * Math.sin(pushAngle);
-                    
-                    const originalX = parseFloat(project.dataset.originalX);
-                    const originalY = parseFloat(project.dataset.originalY);
-                    
-                    project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
-                    project.style.left = (originalX + pushX) + 'px';
-                    project.style.top = (originalY + pushY) + 'px';
-                    project.style.opacity = '0.7';
-                    project.style.transform = 'scale(0.95)';
-                }
-            });
-        }
-
-        function resetProjectPositions(projects, centerX, centerY, radius) {
-            projects.forEach(project => {
-                const originalX = parseFloat(project.dataset.originalX);
-                const originalY = parseFloat(project.dataset.originalY);
-                
-                project.style.transition = 'all 0.4s cubic-bezier(0.23, 1, 0.320, 1)';
-                project.style.left = originalX + 'px';
-                project.style.top = originalY + 'px';
-                project.style.opacity = '1';
-                project.style.transform = 'scale(1)';
-            });
-        }
-
-        // ========== 初始化 ==========
-        // 生成首个思维粒子
-        createThoughtParticle();
-
-        // 页面加载完成后的初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🎨 创意画布已加载 — 开始你的想象之旅');
-            initializeProjectLayout();
-        });
 
         // 窗口大小改变时重新计算布局
         window.addEventListener('resize', () => {
-            setTimeout(initializeProjectLayout, 100);
+            setTimeout(initializeUnifiedOrbit, 100);
         });
     </script>
 </body>
