@@ -1,10 +1,3 @@
-仿照游戏wiki网页的格式，帮我写一个关于游戏just run2的网页，用于做index的子网页。要求：
-
-参考 template，使用特定的主题色
-有侧边栏导航
-需要图片或者其他文件的地方可以留TODO空
-
-
 Rougelike游戏
 装甲臂
 This content is only supported in a Feishu Docs
